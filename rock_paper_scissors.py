@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def RPS_cost(adversary_action):
     """returns cost vector for Rock Paper Scissors
     adversary_action=[0: rock 1:paper 2:scissors]"""
