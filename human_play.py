@@ -64,10 +64,10 @@ def random_opponent():
         return MW_relative_markovian(3, 3, 0.5), "MW_relative_markovian_eps0.5"
 
     elif x == 5:
-        return MW_relative(3, 0.5), "MW_relative_eps0.5"
+        return MW_relative(3, 0.3), "MW_relative_eps0.3"
         
     elif x == 6:
-        return MW_absolute(3, 0.5), "MW_absolute_eps0.5"
+        return MW_absolute(3, 0.3), "MW_absolute_eps0.3"
         
 
 
