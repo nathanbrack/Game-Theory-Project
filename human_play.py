@@ -46,7 +46,7 @@ class RPS_human_game():
 
 
 def random_opponent():
-    x = np.random.default_rng().choice(7)
+    x = 5#np.random.default_rng().choice(7)
 
     if x == 0:
         return Uniform_random(3), "Uniform_random"
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     opponent, name = random_opponent()
 
     timestr = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    fp = f"./games/{name}-{timestr}.pkl"
+    fp = f"./games/{timestr}-{name}.pkl"
 
     game = RPS_human_game(opponent)
 
@@ -136,8 +136,8 @@ if __name__ == "__main__":
     scissors = tkinter.Button(window, text = "Scissors", bg = "#ff9999", padx=10, pady=25, command=play_s, width=20)
     global output
     global stats
-    output = tkinter.Label(window, width=20, fg = "red", text="What's your call?",font=("Courier", 30) )
-    stats = tkinter.Label(window, width=20, fg = "black", text="",font=("Mono", 15) )
+    output = tkinter.Label(window, width=20, fg = "red", text="What's your call?",font=("Courier", 30,"bold") )
+    stats = tkinter.Label(window, width=20, fg = "black", text="",font=("Helvetica", 20) )
 
     
     rock.grid(column=0,row=2)

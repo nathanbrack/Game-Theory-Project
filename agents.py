@@ -51,10 +51,16 @@ class MW_relative(Agent):
 
     def update(self, cost, adv_action, **kwargs):
         if self.last_adv_action is not None:
-            factor = np.power((1 - self.eps), cost)
-            self.weights *= factor
+            # make cost relative to self.last_adv_action
+            cost = np.roll(cost, -1 * self.last_adv_action)
+            # print(cost)
 
+            factor = np.power((1 - self.eps), cost)
+            # print(factor)
+            self.weights *= factor
             self.weights /= self.weights.sum()
+
+            # print(self.weights)
 
         self.last_adv_action = adv_action
 
@@ -78,8 +84,8 @@ class MW_absolute_markovian(Agent):
         return a
 
     def update(self, cost, adv_action, **kwargs):
-        factor = np.power((1 - self.eps), cost)
         if self.state is not None:
+            factor = np.power((1 - self.eps), cost)
             self.weights[self.state] *= factor
 
             self.weights[self.state] /= self.weights[self.state].sum()
@@ -112,8 +118,10 @@ class MW_relative_markovian(Agent):
         return a
 
     def update(self, cost, adv_action, game_outcome, **kwargs):
-        factor = np.power((1 - self.eps), cost)
-        if self.state is not None:
+        if self.state is not None and self.last_adv_action is not None:
+            cost = np.roll(cost, -1 * self.last_adv_action)
+            factor = np.power((1 - self.eps), cost)
+            
             self.weights[self.state] *= factor
 
             self.weights[self.state] /= self.weights[self.state].sum()
