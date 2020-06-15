@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 M = 10 # number of simulations
-N = 1000 # number of rounds played each simulation
+N = 2000 # number of rounds played each simulation
 eps = 0.5 # tuning parameter: exploration (small eps) vs. exploitation (big eps)
 
 for i in range(M):
