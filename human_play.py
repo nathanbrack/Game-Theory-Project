@@ -83,7 +83,7 @@ if __name__ == "__main__":
     game = RPS_human_game(opponent)
 
     window = tkinter.Tk()
-    window.geometry("600x200")
+    window.geometry("600x400")
     round = 0
 
     def update_window(a1, a2, outcome):
@@ -95,17 +95,26 @@ if __name__ == "__main__":
             return
 
         round += 1
+        actions = {0: "Rock", 1: "Paper", 2: "Scissors"}
+
+        global output
+        global stats
 
         if outcome == 1:
             ret = "You win!"
+            output.config(text=f"{actions[a1]} vs. {actions[a2]}\n{ret}\n", fg="green")
         elif outcome == -1:
             ret = "You Loose!"
+            output.config(text=f"{actions[a1]} vs. {actions[a2]}\n{ret}\n", fg="red")
         else:
             ret = "Tie!"
+            output.config(text=f"{actions[a1]} vs. {actions[a2]}\n{ret}\n", fg="black")
 
-        actions = {0: "Rock", 1: "Paper", 2: "Scissors"}
-        global output
-        output.config(text=f"{actions[a1]} vs. {actions[a2]}\n{ret}\n Wins: {game.wins1}\n Losses:{game.losses1}\nTies:{game.ties}\n{round}/{n_rounds}")
+        
+        
+        
+
+        stats.config(text=f"Total: {round}/{n_rounds}\nWins: {game.wins1}\nLosses:{game.losses1}\nTies:{game.ties}\n")
 
         pkl_save(fp, game)
     
@@ -126,11 +135,14 @@ if __name__ == "__main__":
     paper = tkinter.Button(window, text = "Paper", bg = "#3399ff", padx=10, pady=25, command=play_p, width=20)
     scissors = tkinter.Button(window, text = "Scissors", bg = "#ff9999", padx=10, pady=25, command=play_s, width=20)
     global output
-    output = tkinter.Label(window, width=20, fg = "red", text="What's your call?",font=("Courier", 15) )
+    global stats
+    output = tkinter.Label(window, width=20, fg = "red", text="What's your call?",font=("Courier", 30) )
+    stats = tkinter.Label(window, width=20, fg = "black", text="",font=("Mono", 15) )
 
     
     rock.grid(column=0,row=2)
     paper.grid(column=1,row=2)
     scissors.grid(column=2,row=2)
-    output.grid(column=1,row=4)
+    output.grid(column=0,row=4, columnspan=3)
+    stats.grid(column=0,row=5, columnspan=3)
     window.mainloop()
