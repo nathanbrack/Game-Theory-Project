@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class MW():
+class MW_basic():
     def __init__(self, n_actions, eps):
         self.eps = eps
         self.n_actions = n_actions
@@ -18,7 +18,7 @@ class MW():
         self.weights /= self.weights.sum()
 
 
-class MW_markovian():
+class MW_absolute_markovian():
     def __init__(self, n_actions, n_states, eps):
         self.eps = eps
         self.n_actions = n_actions
@@ -26,7 +26,36 @@ class MW_markovian():
         self.weights = np.ones((n_states, n_actions)) / n_actions
         self.rng = np.random.default_rng()
 
-        # start with unifrom probability in any action
+        # start with uniform probability in any action
+        self.state = None
+
+    def get_action(self):
+        if self.state is not None:
+            a = self.rng.choice(self.n_actions, p=self.weights[self.state])
+        else:
+            a = self.rng.choice(self.n_states)
+        return a
+
+    def update(self, cost, adv_action):
+        factor = np.power((1 - self.eps), cost)
+        if self.state is not None:
+            self.weights[self.state] *= factor
+
+            self.weights[self.state] /= self.weights[self.state].sum()
+
+        self.state = adv_action
+
+
+class MW_relative_markovian():
+    # important: here, states and actions are not rock paper scissors anymore, but win lose and tie strategies
+    def __init__(self, n_actions, n_states, eps):
+        self.eps = eps
+        self.n_actions = n_actions
+        self.n_states = n_states
+        self.weights = np.ones((n_states, n_actions)) / n_actions
+        self.rng = np.random.default_rng()
+
+        # start with uniform probability in any action
         self.state = None
 
     def get_action(self):
@@ -58,7 +87,7 @@ class Uniform_random():
         pass
 
 
-class Markovian_fixed():
+class Fixed_absolute_markovian():
     def __init__(self, n_actions, transition_p):
         assert transition_p.shape == (n_actions, n_actions)
         self.n_actions = n_actions

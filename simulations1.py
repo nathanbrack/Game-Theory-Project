@@ -1,55 +1,33 @@
 from agents import *
 from rock_paper_scissors import *
 
-# self play
-p1 = MW_markovian(3, 3, 0.05)
-p2 = MW_markovian(3, 3, 0.05)
-
-game = RPSGame(p1, p2)
-
-for i in range(100):
-    game.play_round()
-
-print(f"Wins:{game.wins1}\tLosses:{game.losses1}\tTies:{game.ties}")
-print(p1.weights)
-print(p2.weights)
-
-# play against non markovian learner
-p1 = MW_markovian(3, 3, 0.05)
-p2 = MW(3, 0.05)
-
-game = RPSGame(p1, p2)
-
-for i in range(100):
-    game.play_round()
-
-print(f"Wins:{game.wins1}\tLosses:{game.losses1}\tTies:{game.ties}")
-print(p1.weights)
-print(p2.weights)
-
-# play against optimal random
-
-p1 = MW_markovian(3, 3, 0.05)
-p2 = Uniform_random(3)
-
-game = RPSGame(p1, p2)
-
-for i in range(100):
-    game.play_round()
-
-print(f"Wins:{game.wins1}\tLosses:{game.losses1}\tTies:{game.ties}")
-print(p1.weights)
+import matplotlib.pyplot as plt
 
 
-# play against biased markovian that prefers to play the last action
+M = 10 # number of simulations
+N = 1000 # number of rounds played each simulation
+eps = 0.5 # tuning parameter: exploration (small eps) vs. exploitation (big eps)
 
-p1 = MW_markovian(3, 3, 0.05)
-p2 = Markovian_fixed(3,np.array(([0.5,0.25,0.25], [0.25,0.5,0.25], [0.25,0.25,0.5])))
+for i in range(M):
+    p1 = MW_absolute_markovian(3, 3, eps)
+    p2 = Fixed_absolute_markovian(3, np.array(([0.5, 0.25, 0.25], [0.25, 0.5, 0.25], [0.25, 0.25, 0.5])))
+    game = RPSGame(p1, p2)
 
-game = RPSGame(p1, p2)
+    win_loss_ratio = []
+    for j in range(N):
+        game.play_round()
+        if game.losses1 > 0:
+            win_loss_ratio.append(game.wins1/game.losses1)
+        else:
+            win_loss_ratio.append(None)
 
-for i in range(1000):
-    game.play_round()
+    print(f"Wins:{game.wins1}\tLosses:{game.losses1}\tTies:{game.ties}")
+    plt.plot(win_loss_ratio, 'lightgray')
 
-print(f"Wins:{game.wins1}\tLosses:{game.losses1}\tTies:{game.ties}")
-print(p1.weights)
+plt.ylim((0,3))
+plt.xlabel('Number of Rounds')
+plt.ylabel('Win-Loss-ratio')
+plt.suptitle('Simulation of Rock Paper Scissors: MW Markovian vs. fixed Markovian')
+plt.plot([0,N], [1,1], 'black') # plot horizontal line
+plt.show()
+
