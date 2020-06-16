@@ -35,9 +35,9 @@ if __name__ == "__main__":
     logfile.close()
 
     agents = []
-    # for i in range(len(games)):
-    if True:
-        i = len(games)-1
+    for i in range(len(games)):
+    #if True: # just show last played game
+    #    i = len(games)-1 # just show last played game
         fp = games[i]
         agent = fp.split("--")[-1]
         agents.append(agent)
