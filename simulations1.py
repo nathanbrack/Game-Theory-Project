@@ -13,16 +13,11 @@ for i in range(M):
     p2 = Fixed_absolute_markovian(3, np.array(([0.5, 0.25, 0.25], [0.25, 0.5, 0.25], [0.25, 0.25, 0.5])))
     game = RPSGame(p1, p2)
 
-    win_loss_ratio = []
     for j in range(N):
         game.play_round()
-        if game.losses1 > 0:
-            win_loss_ratio.append(game.wins1/game.losses1)
-        else:
-            win_loss_ratio.append(None)
 
     print(f"Wins:{game.wins1}\tLosses:{game.losses1}\tTies:{game.ties}")
-    plt.plot(win_loss_ratio, 'lightgray')
+    plt.plot(game.win_loss_ratio, 'lightgray')
 
 plt.ylim((0,3))
 plt.xlabel('Number of Rounds')

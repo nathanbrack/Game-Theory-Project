@@ -26,6 +26,7 @@ class RPSGame():
         self.strategy2 = strategy2
 
         self.game_history = []
+        self.win_loss_ratio = []
 
         self.ties = 0
         self.wins1 = 0
@@ -51,5 +52,9 @@ class RPSGame():
             self.ties += 1
 
         self.game_history.append((a1, a2))
+        if self.losses1 > 0:
+            self.win_loss_ratio.append(self.wins1 / self.losses1)
+        else:
+            self.win_loss_ratio.append(None)
 
         return outcome
