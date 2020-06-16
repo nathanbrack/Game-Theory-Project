@@ -84,7 +84,8 @@ if __name__ == "__main__":
     opponent, name = random_opponent()
 
     timestr = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    fp = f"./games/{timestr}-{name}.pkl"
+    filename = f"{timestr}--{name}"
+    fp = f"./games/{filename}.pkl"
 
     game = RPS_human_game(opponent)
 
@@ -119,6 +120,13 @@ if __name__ == "__main__":
 
         stats.config(text=f"Total: {round}/{n_rounds}\nWins: {game.wins1}\nLosses:{game.losses1}\nTies:{game.ties}\n")
 
+        # write to log-file
+        if round == n_rounds-1:
+            logfile = open("log.txt", "a")
+            logfile.write(filename)
+            logfile.write(";")  # seperator in log-file
+            logfile.close()
+
         pkl_save(fp, game)
 
 
@@ -137,17 +145,20 @@ if __name__ == "__main__":
         update_window(a1, a2, outcome)
 
 
-    rock = tkinter.Button(window, text="Rock", bg="#80ff80", padx=10, pady=25, command=play_r, width=20)
-    paper = tkinter.Button(window, text="Paper", bg="#3399ff", padx=10, pady=25, command=play_p, width=20)
-    scissors = tkinter.Button(window, text="Scissors", bg="#ff9999", padx=10, pady=25, command=play_s, width=20)
+    rock = tkinter.Button(window, text="Rock", bg="#ffffff", padx=10, pady=25, command=play_r, width=10)
+    paper = tkinter.Button(window, text="Paper", bg="#ffffff", padx=10, pady=25, command=play_p, width=10)
+    scissors = tkinter.Button(window, text="Scissors", bg="#ffffff", padx=10, pady=25, command=play_s, width=10)
     global output
     global stats
-    output = tkinter.Label(window, width=20, fg="red", text="What's your call?", font=("Courier", 30, "bold"))
-    stats = tkinter.Label(window, width=20, fg="black", text="", font=("Helvetica", 20))
+    output = tkinter.Label(window, width=25, fg="black", text="What's your call?", font=("Courier", 30, "bold"))
+    stats = tkinter.Label(window, width=25, fg="black", text="", font=("Helvetica", 20))
 
+
+    window.grid_rowconfigure(2, minsize=300)
     rock.grid(column=0, row=2)
-    paper.grid(column=1, row=2)
+    paper.grid(column=1, row=1)
     scissors.grid(column=2, row=2)
-    output.grid(column=0, row=4, columnspan=3)
-    stats.grid(column=0, row=5, columnspan=3)
+    output.grid(column=0, row=3, columnspan=3)
+    stats.grid(column=0, row=4, columnspan=3)
     window.mainloop()
+
