@@ -52,7 +52,7 @@ class RPS_human_game():
 
 
 def random_opponent():
-    x = np.random.default_rng().choice(7)
+    x = np.random.default_rng().choice([3,4,5,6], p=[0.2,0.3,0.3,0.2])
 
     if x == 0:
         return Uniform_random(3), "Uniform_random"
