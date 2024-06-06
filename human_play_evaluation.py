@@ -27,13 +27,13 @@ def color(agent):
     elif agent == "Fixed_relative_markovian":
         return 'gray', 'Fixed Relative Markovian'
     elif agent == "MW_absolute_markovian_eps0.5":
-        return 'darkgreen', 'Absolute Markovian Agent with $\epsilon = 0.5$'
+        return 'blue', 'Absolute Markovian Agent'
     elif agent == "MW_relative_markovian_eps0.5":
-        return 'darkred', 'Relative Markovian Agent with $\epsilon = 0.5$'
+        return 'blue', 'Relative Markovian Agent'
     elif agent == "MW_absolute_eps0.3":
-        return 'green', 'Absolute Markovian Agent with $\epsilon = 0.3$'
+        return 'green', 'Basic Absolute Agent'
     elif agent == "MW_relative_eps0.3":
-        return 'red', 'Relative Markovian Agent with $\epsilon = 0.3$'
+        return 'green', 'Basic Relative Agent'
 
 
 if __name__ == "__main__":
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     plt.pyplot.ylim((0, 3))
     plt.pyplot.xlabel('Number of Rounds')
     plt.pyplot.ylabel('Win-Loss-ratio')
-    plt.pyplot.suptitle('Humans performance against Markovian Agents')
+    #plt.pyplot.suptitle('Humans performance against Markovian Agents')
 
 
     agents = []
@@ -77,7 +77,7 @@ if __name__ == "__main__":
             plt.pyplot.plot(game.win_loss_ratio, col, label=lab)
 
 
-    plt.pyplot.plot([0, 100], [1, 1], 'blue')  # plot horizontal line
+    plt.pyplot.plot([0, 100], [1, 1], 'red')  # plot horizontal line
     handles, labels = plt.pyplot.gca().get_legend_handles_labels()
     by_label = dict(zip(labels, handles))
     plt.pyplot.legend(by_label.values(), by_label.keys(), loc='upper right')
